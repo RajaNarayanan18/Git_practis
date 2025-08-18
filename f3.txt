@@ -1,1 +1,3 @@
-this is filr after creating sec branch and already 2nd branch holds two files this is for rebase and commit 
+this is filr after creating sec branch and already 2nd branch holds two files this is for rebase and commi
+this is commit 2
+t 
