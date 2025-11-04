@@ -1,0 +1,49 @@
+Here’s a sample Azure DevOps pipeline YAML file to help you get started. This example demonstrates a simple CI/CD pipeline for building and testing a .NET application:
+Yaml# azure-pipelines.yml
+trigger:
+  branches:
+    include:
+      - main  # Trigger pipeline on changes to the 'main' branch
+
+pool:
+  vmImage: 'ubuntu-latest'  # Use an Ubuntu-based agent
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '7.x'  # Specify .NET version
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- script: |
+    dotnet restore
+    dotnet build --configuration $(buildConfiguration)
+  displayName: 'Restore and Build'
+
+- script: |
+    dotnet test --configuration $(buildConfiguration) --no-build
+  displayName: 'Run Tests'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
+    publishLocation: 'Container'
+
+Explanation of Key Sections:
+
+Trigger: Specifies the branch(es) that trigger the pipeline.
+Pool: Defines the agent pool to run the pipeline (e.g., ubuntu-latest).
+Variables: Stores reusable variables like buildConfiguration.
+Steps:
+
+UseDotNet@2: Installs the required .NET SDK.
+Scripts: Runs commands to restore, build, and test the application.
+PublishBuildArtifacts@1: Publishes build artifacts for further use.
+
+
+
+This is a basic example. You can customize it further based on your project requirements, such as adding deployment steps or integrating with other tools.
